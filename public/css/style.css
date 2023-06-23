@@ -1,0 +1,10 @@
+.container{
+   width: 60%;
+   margin: 50px auto;
+   background-color: aliceblue;
+}
+h1{
+    text-align: center;
+    justify-content: center;
+    
+}
