@@ -4,7 +4,7 @@ const email_config=
 
 {
 
-    host: 'smtp.gmail.com',
+    host: 'Outlook',
 
     port: 567,
 
