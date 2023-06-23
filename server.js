@@ -7,19 +7,15 @@ app.set('view engine', 'ejs');
 
 app.use(express.static("public"));
 
+app.post("/sendmail", (req, res) => {
+  sendMail();
+  res.send("send email success");
+});
 
 // app.get('/', function(req, res) {
 //     res.render('index');
 //   });
 
-  const templatePath = path.join(__dirname, 'index.ejs');
-ejs.renderFile(templatePath, (error, renderedHtml) => {
-  if (error) {
-    console.log('Error rendering EJS template:', error);
-    return;
-  }
-  sendMail();
-})
 
 
 

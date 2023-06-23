@@ -1,14 +1,8 @@
-const nodemailer = require('nodemailer')
-require('dotenv').config()
+require('dotenv').config();
+const nodemailer = require('nodemailer');
+const ejs = require('ejs');
 
 const email_config = require('../config/emailConfig');
-
-const message_options = {
-    to:"jonathan.mwaniki@thejitu.com",
-    from:"kipoech.aron@thejitu.com",
-    subject:"WEEKLY REPORT",
-    html:renderedHtml
-}
 
 const transporter = nodemailer.createTransport(email_config);
 
@@ -21,15 +15,34 @@ transporter.verify(function(error, success) {
     }
   });
 
-
-async function sendMail(){
-    try {
-       let results= await transporter.sendMail(message_options);
-       console.log(results);
-    } catch (error) {
-        console.log(error)
-        
-    }
-}
+  const  sendMail = (subject) => {
+    ejs.renderFile('../views/index.ejs', (err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+        const message_options = {
+            to:process.env.Email_Receiver,
+            from:process.env.Email_USER,
+            subject:subject,
+            html:data,
+          attachments: [
+            {
+              filename: 'REPORT ON WEEKLY PROGRESS WEEK 8.docx',
+              path: '/src/REPORT ON WEEKLY PROGRESS WEEK 8.docx',
+              cid: 'REPORT'
+            }
+          ]
+        };
+  
+        transporter.sendMail(message_options, (error, info) => {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Message sent: %s', info.messageId);
+          }
+        });
+      }
+    });
+};
 
 module.exports = sendMail;
